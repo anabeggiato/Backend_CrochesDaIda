@@ -7,7 +7,7 @@ using Shared.Endpoints;
 
 namespace Services.Features.Products.UseCases.CreateProduct;
 
-public class CreateProduct : IEndpointDefiition
+public class CreateProduct : IEndpointDefinition
 {
     public record Request(
         string Name,

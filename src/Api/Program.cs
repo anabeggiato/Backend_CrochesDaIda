@@ -1,4 +1,6 @@
 using Services.Features.Products.UseCases.CreateProduct;
+using Services.Features.Products.UseCases.ListProducts;
+using Services.Features.Products.UseCases.GetProduct;
 using Services.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,5 +12,7 @@ var app = builder.Build();
 
 // Registra os endpoints
 new CreateProduct().MapEndpoints(app);
+new ListProducts().MapEndpoints(app);
+new GetProduct().MapEndpoints(app);
 
 app.Run();
