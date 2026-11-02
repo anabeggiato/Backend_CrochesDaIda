@@ -1,12 +1,17 @@
 using Services.Features.Products.UseCases.CreateProduct;
 using Services.Features.Products.UseCases.ListProducts;
 using Services.Features.Products.UseCases.GetProduct;
+using Microsoft.EntityFrameworkCore;
 using Services.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Registra o armazenamento em memória
-builder.Services.AddSingleton<ProductStore>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
 
 var app = builder.Build();
 

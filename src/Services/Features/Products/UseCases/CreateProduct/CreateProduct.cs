@@ -27,9 +27,10 @@ public class CreateProduct : IEndpointDefinition
         app.MapPost("/api/products", Handle);
     }
 
-    private static IResult Handle(
+    private static async Task<IResult> Handle(
         Request request,
-        ProductStore store)
+        AppDbContext dbContext,
+        CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(request.Name))
         {
@@ -53,7 +54,9 @@ public class CreateProduct : IEndpointDefinition
             IsAvailable = request.IsAvailable
         };
 
-        store.Products[product.Id] = product;
+        dbContext.Products.Add(product);
+        
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         var response = new Response(
             product.Id,

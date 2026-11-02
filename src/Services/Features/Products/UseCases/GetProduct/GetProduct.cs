@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Services.Features.Products.Models;
+using Microsoft.EntityFrameworkCore;
 using Services.Persistence;
 using Shared.Endpoints;
 
@@ -22,28 +22,24 @@ public class GetProduct : IEndpointDefinition
         app.MapGet("/api/products/{id}", Handle);
     }
 
-    private static IResult Handle(
-        string id,
-        ProductStore store)
+    private static async Task<IResult> Handle(
+        Guid id,
+        AppDbContext db,
+        CancellationToken cancellationToken
+    )
     {
-        if (!Guid.TryParse(id, out var productId))
-            {
-                return Results.BadRequest("ID inválido.");
-            }
-    
-        if (!store.Products.TryGetValue(productId, out var product))
-            {
-                return Results.NotFound("Produto não encontrado");
-            }
+        var product = await db.Products
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                p => p.Id == id, 
+                cancellationToken
+            );
 
-        var response = new Response(
-            product.Id,
-            product.Name,
-            product.Description,
-            product.Price,
-            product.IsAvailable
-        );
+        if (product is null)
+        {
+            return Results.NotFound();
+        }
 
-        return Results.Ok(response);
+        return Results.Ok(product);
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Services.Features.Products.Models;
+using Microsoft.EntityFrameworkCore;
 using Services.Persistence;
 using Shared.Endpoints;
 
@@ -22,9 +22,12 @@ public class ListProducts : IEndpointDefinition
         app.MapGet("/api/products", Handle);
     }
 
-    private static IResult Handle(ProductStore store)
+    private static async Task<IResult> Handle(
+        AppDbContext dbContext
+    )
     {
-        var products = store.Products.Values
+        var products = await dbContext.Products
+            .AsNoTracking()
             .OrderBy(product => product.Name)
             .Select(product => new Response(
                 product.Id,
@@ -33,7 +36,7 @@ public class ListProducts : IEndpointDefinition
                 product.Price,
                 product.IsAvailable
             ))
-            .ToList();
+            .ToListAsync();
         
         return Results.Ok(products);
     }
