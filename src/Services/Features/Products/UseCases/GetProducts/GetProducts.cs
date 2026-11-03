@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Services.Persistence;
 using Shared.Endpoints;
 
-namespace Services.Features.Products.UseCases.ListProducts;
+namespace Services.Features.Products.UseCases.GetProducts;
 
-public class ListProducts : IEndpointDefinition 
+public class GetProducts : IEndpointDefinition 
 {
     public record Response(
         Guid Id,

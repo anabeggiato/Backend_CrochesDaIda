@@ -1,6 +1,8 @@
 using Services.Features.Products.UseCases.CreateProduct;
-using Services.Features.Products.UseCases.ListProducts;
+using Services.Features.Products.UseCases.GetProducts;
 using Services.Features.Products.UseCases.GetProduct;
+using Services.Features.Products.UseCases.DeleteProduct;
+using Services.Features.Products.UseCases.UpdateProduct;
 using Microsoft.EntityFrameworkCore;
 using Services.Persistence;
 
@@ -17,7 +19,9 @@ var app = builder.Build();
 
 // Registra os endpoints
 new CreateProduct().MapEndpoints(app);
-new ListProducts().MapEndpoints(app);
+new GetProducts().MapEndpoints(app);
 new GetProduct().MapEndpoints(app);
+new UpdateProduct().MapEndpoints(app);
+new DeleteProduct().MapEndpoints(app);
 
 app.Run();
