@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Services.Features.Products.Models;
+using Services.Features.Collections.Models;
 
 namespace Services.Persistence;
 
@@ -11,6 +12,7 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<Collection> Collections => Set<Collection>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
