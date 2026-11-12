@@ -13,6 +13,9 @@ public class GetProducts : IEndpointDefinition
         Guid Id,
         string Name,
         string Description,
+        float Height,
+        float Width,
+        float Weight,
         decimal Price,
         bool IsAvailable,
         Guid CollectionId
@@ -34,6 +37,9 @@ public class GetProducts : IEndpointDefinition
                 product.Id,
                 product.Name,
                 product.Description,
+                product.Height,
+                product.Width,
+                product.Weight,
                 product.Price,
                 product.IsAvailable,
                 product.CollectionId

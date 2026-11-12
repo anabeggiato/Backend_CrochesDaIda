@@ -65,6 +65,9 @@ namespace Services.Persistence.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<float>("Height")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("boolean");
 
@@ -74,6 +77,12 @@ namespace Services.Persistence.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<float>("Width")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");

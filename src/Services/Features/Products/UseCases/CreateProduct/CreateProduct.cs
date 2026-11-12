@@ -12,6 +12,9 @@ public class CreateProduct : IEndpointDefinition
     public record Request(
         string Name,
         string Description,
+        float Height,
+        float Width,
+        float Weight,
         decimal Price,
         bool IsAvailable,
         Guid CollectionId
@@ -20,6 +23,9 @@ public class CreateProduct : IEndpointDefinition
     public record Response(
         Guid Id,
         string Name,
+        float Height,
+        float Width,
+        float Weight,
         decimal Price
     );
 
@@ -47,11 +53,29 @@ public class CreateProduct : IEndpointDefinition
             );
         }
 
+        if (request.Height <= 0)
+        {
+            return Results.BadRequest("A altura do produto deve ser maior que zero");
+        }
+
+        if (request.Width <= 0)
+        {
+            return Results.BadRequest("A largura do produto deve ser maior que zero");
+        }
+
+        if (request.Weight <= 0)
+        {
+            return Results.BadRequest("O peso do produto deve ser maior que zero");
+        }
+
         var product = new Product
         {
             Id = Guid.NewGuid(),
             Name = request.Name,
             Description = request.Description,
+            Height = request.Height,
+            Width = request.Width,
+            Weight = request.Weight,
             Price = request.Price,
             IsAvailable = request.IsAvailable,
             CollectionId = request.CollectionId
@@ -64,6 +88,9 @@ public class CreateProduct : IEndpointDefinition
         var response = new Response(
             product.Id,
             product.Name,
+            product.Height,
+            product.Width,
+            product.Weight,
             product.Price
         );
 

@@ -12,6 +12,9 @@ public class UpdateProduct : IEndpointDefinition
     public record Request(
         string? Name,
         string? Description,
+        float Height,
+        float Width,
+        float Weight,
         decimal Price,
         bool IsAvailable,
         Guid CollectionId
@@ -40,6 +43,21 @@ public class UpdateProduct : IEndpointDefinition
             return Results.BadRequest("O preço deve ser maior que zero");
         }
 
+        if (request.Height <= 0)
+        {
+            return Results.BadRequest("A altura do produto deve ser maior que zero");
+        }
+
+        if (request.Width <= 0)
+        {
+            return Results.BadRequest("A largura do produto deve ser maior que zero");
+        }
+
+        if (request.Weight <= 0)
+        {
+            return Results.BadRequest("O peso do produto deve ser maior que zero");
+        }
+
         var product = await dbContext.Products.FindAsync(new object[] { id }, cancellationToken);
 
         if (product is null)
@@ -49,6 +67,9 @@ public class UpdateProduct : IEndpointDefinition
 
         product.Name = name;
         product.Description = request.Description ?? string.Empty;
+        product.Height = request.Height;
+        product.Width = request.Width;
+        product.Weight = request.Weight;
         product.Price = request.Price;
         product.IsAvailable = request.IsAvailable;
         product.CollectionId = request.CollectionId;

@@ -7,6 +7,9 @@ public class Product
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public float Height { get; set; }
+    public float Width { get; set; }
+    public float Weight { get; set; }
     public decimal Price { get; set; }
     public bool IsAvailable { get; set; }
     public Guid CollectionId { get; set; }

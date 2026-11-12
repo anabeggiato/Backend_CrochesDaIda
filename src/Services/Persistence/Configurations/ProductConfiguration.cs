@@ -19,6 +19,18 @@ public class ProductConfiguration
 
         builder.Property(p => p.Description)
             .HasMaxLength(500);
+        
+        builder.Property(p => p.Height)
+            .IsRequired()
+            .HasColumnType("decimal(18,2)");
+        
+        builder.Property(p => p.Width)
+            .IsRequired()
+            .HasColumnType("decimal(18,2)");
+
+        builder.Property(p => p.Weight)
+            .IsRequired()
+            .HasColumnType("decimal(18,2)");
 
         builder.Property(p => p.Price)
             .IsRequired()
