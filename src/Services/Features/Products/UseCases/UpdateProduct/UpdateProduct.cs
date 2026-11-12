@@ -13,7 +13,8 @@ public class UpdateProduct : IEndpointDefinition
         string? Name,
         string? Description,
         decimal Price,
-        bool IsAvailable
+        bool IsAvailable,
+        Guid CollectionId
     );
 
     public void MapEndpoints(IEndpointRouteBuilder app)
@@ -50,7 +51,7 @@ public class UpdateProduct : IEndpointDefinition
         product.Description = request.Description ?? string.Empty;
         product.Price = request.Price;
         product.IsAvailable = request.IsAvailable;
-
+        product.CollectionId = request.CollectionId;
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();

@@ -13,7 +13,8 @@ public class CreateProduct : IEndpointDefinition
         string Name,
         string Description,
         decimal Price,
-        bool IsAvailable
+        bool IsAvailable,
+        Guid CollectionId
     );
 
     public record Response(
@@ -38,6 +39,7 @@ public class CreateProduct : IEndpointDefinition
                 "O nome do produto é obrigatório"
             );
         }
+
         if(request.Price <= 0)
         {
             return Results.BadRequest(
@@ -51,7 +53,8 @@ public class CreateProduct : IEndpointDefinition
             Name = request.Name,
             Description = request.Description,
             Price = request.Price,
-            IsAvailable = request.IsAvailable
+            IsAvailable = request.IsAvailable,
+            CollectionId = request.CollectionId
         };
 
         dbContext.Products.Add(product);

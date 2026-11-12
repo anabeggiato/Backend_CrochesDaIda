@@ -26,5 +26,10 @@ public class ProductConfiguration
 
         builder.Property(p => p.IsAvailable)
             .IsRequired();
+
+        builder.HasOne(p => p.Collection)
+            .WithMany(c => c.Products)
+            .HasForeignKey(p => p.CollectionId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

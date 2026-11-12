@@ -1,3 +1,5 @@
+using Services.Features.Collections.Models;
+
 namespace Services.Features.Products.Models;
 
 public class Product
@@ -7,6 +9,6 @@ public class Product
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
     public bool IsAvailable { get; set; }
-    
-
+    public Guid CollectionId { get; set; }
+    public Collection Collection { get; set; } = null!;
 }

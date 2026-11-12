@@ -14,7 +14,8 @@ public class GetProducts : IEndpointDefinition
         string Name,
         string Description,
         decimal Price,
-        bool IsAvailable
+        bool IsAvailable,
+        Guid CollectionId
     );
 
     public void MapEndpoints(IEndpointRouteBuilder app) 
@@ -34,7 +35,8 @@ public class GetProducts : IEndpointDefinition
                 product.Name,
                 product.Description,
                 product.Price,
-                product.IsAvailable
+                product.IsAvailable,
+                product.CollectionId
             ))
             .ToListAsync();
         

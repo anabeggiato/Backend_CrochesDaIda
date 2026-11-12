@@ -57,6 +57,9 @@ namespace Services.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("CollectionId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -75,7 +78,25 @@ namespace Services.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CollectionId");
+
                     b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("Services.Features.Products.Models.Product", b =>
+                {
+                    b.HasOne("Services.Features.Collections.Models.Collection", "Collection")
+                        .WithMany("Products")
+                        .HasForeignKey("CollectionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Collection");
+                });
+
+            modelBuilder.Entity("Services.Features.Collections.Models.Collection", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

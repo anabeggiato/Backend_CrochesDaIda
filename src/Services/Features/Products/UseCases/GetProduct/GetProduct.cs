@@ -14,7 +14,8 @@ public class GetProduct : IEndpointDefinition
         string Name,
         string Description,
         decimal Price,
-        bool IsAvailable
+        bool IsAvailable,
+        Guid CollectionId
     );
 
     public void MapEndpoints(IEndpointRouteBuilder app)
@@ -31,7 +32,7 @@ public class GetProduct : IEndpointDefinition
         var product = await db.Products
             .AsNoTracking()
             .FirstOrDefaultAsync(
-                p => p.Id == id, 
+                p => p.Id == id,
                 cancellationToken
             );
 
@@ -40,6 +41,13 @@ public class GetProduct : IEndpointDefinition
             return Results.NotFound();
         }
 
-        return Results.Ok(product);
+        return Results.Ok(new Response(
+            product.Id,
+            product.Name,
+            product.Description,
+            product.Price,
+            product.IsAvailable,
+            product.CollectionId
+        ));
     }
 }
