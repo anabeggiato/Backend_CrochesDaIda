@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Services.Features.Products.Models;
 using Services.Persistence;
 using Shared.Endpoints;
@@ -17,7 +18,8 @@ public class UpdateProduct : IEndpointDefinition
         float Weight,
         decimal Price,
         bool IsAvailable,
-        Guid CollectionId
+        Guid CollectionId,
+        Guid CategoryId
     );
 
     public void MapEndpoints(IEndpointRouteBuilder app)
@@ -58,6 +60,14 @@ public class UpdateProduct : IEndpointDefinition
             return Results.BadRequest("O peso do produto deve ser maior que zero");
         }
 
+        var categoryExists = await dbContext.Categories
+            .AnyAsync(category => category.Id == request.CategoryId, cancellationToken);
+
+        if (!categoryExists)
+        {
+            return Results.BadRequest("A categoria informada não existe");
+        }
+
         var product = await dbContext.Products.FindAsync(new object[] { id }, cancellationToken);
 
         if (product is null)
@@ -73,6 +83,7 @@ public class UpdateProduct : IEndpointDefinition
         product.Price = request.Price;
         product.IsAvailable = request.IsAvailable;
         product.CollectionId = request.CollectionId;
+        product.CategoryId = request.CategoryId;
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();

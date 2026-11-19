@@ -43,5 +43,10 @@ public class ProductConfiguration
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CollectionId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasOne(p => p.Category)
+            .WithMany(c => c.Products)
+            .HasForeignKey(p => p.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

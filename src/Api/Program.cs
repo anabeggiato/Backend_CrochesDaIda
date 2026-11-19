@@ -10,6 +10,12 @@ using Services.Features.Collections.UseCases.GetCollection;
 using Services.Features.Collections.UseCases.DeleteCollection;
 using Services.Features.Collections.UseCases.UpdateCollection;
 
+using Services.Features.Categories.UseCases.CreateCategory;
+using Services.Features.Categories.UseCases.GetCategories;
+using Services.Features.Categories.UseCases.GetCategory;
+using Services.Features.Categories.UseCases.DeleteCategory;
+using Services.Features.Categories.UseCases.UpdateCategory;
+
 using Microsoft.EntityFrameworkCore;
 using Services.Persistence;
 
@@ -31,12 +37,18 @@ new GetProduct().MapEndpoints(app);
 new UpdateProduct().MapEndpoints(app);
 new DeleteProduct().MapEndpoints(app);
 
-// Registra osendpoints de coleção
+// Registra os endpoints de coleção
 new CreateCollection().MapEndpoints(app);
 new GetCollections().MapEndpoints(app);
 new GetCollection().MapEndpoints(app);
 new UpdateCollection().MapEndpoints(app);
 new DeleteCollection().MapEndpoints(app);
 
+// Registra os endpoints de coleção
+new CreateCategory().MapEndpoints(app);
+new GetCategories().MapEndpoints(app);
+new GetCategory().MapEndpoints(app);
+new UpdateCategory().MapEndpoints(app);
+new DeleteCategory().MapEndpoints(app);
 
 app.Run();

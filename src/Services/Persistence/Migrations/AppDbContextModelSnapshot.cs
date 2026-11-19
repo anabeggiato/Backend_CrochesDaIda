@@ -22,6 +22,30 @@ namespace Services.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Services.Features.Categories.Models.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories", (string)null);
+                });
+
             modelBuilder.Entity("Services.Features.Collections.Models.Collection", b =>
                 {
                     b.Property<Guid>("Id")
@@ -57,6 +81,9 @@ namespace Services.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("CollectionId")
                         .HasColumnType("uuid");
 
@@ -87,6 +114,8 @@ namespace Services.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("CollectionId");
 
                     b.ToTable("Products", (string)null);
@@ -94,13 +123,26 @@ namespace Services.Persistence.Migrations
 
             modelBuilder.Entity("Services.Features.Products.Models.Product", b =>
                 {
+                    b.HasOne("Services.Features.Categories.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Services.Features.Collections.Models.Collection", "Collection")
                         .WithMany("Products")
                         .HasForeignKey("CollectionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Category");
+
                     b.Navigation("Collection");
+                });
+
+            modelBuilder.Entity("Services.Features.Categories.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Services.Features.Collections.Models.Collection", b =>
